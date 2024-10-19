@@ -29,3 +29,7 @@ spring:
     generate-ddl: true
     defer-datasource-initialization: true
     open-in-view: false
+
+
+  thymeleaf:
+    cache: false

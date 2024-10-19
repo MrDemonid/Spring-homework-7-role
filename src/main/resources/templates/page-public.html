@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        .user-info {
+            margin-top: 20px;
+        }
+        .user-info p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .user-info span {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>User Information</h1>
+
+    <div class="user-info">
+        <p><span>Username:</span> <span th:text="${username}">User Name</span></p>
+        <p><span>Email:</span> <span th:text="${email}">user@example.com</span></p>
+        <p><span>Roles:</span>
+        <ul>
+            <li th:each="role : ${roles}" th:text="${role}">ROLE_USER</li>
+        </ul>
+        </p>
+    </div>
+
+    <div class="footer">
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+</body>
+
+</html>

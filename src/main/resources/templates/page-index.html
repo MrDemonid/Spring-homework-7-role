@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/home-style.css}">
+    <title>Welcome Page</title>
+</head>
+
+<body>
+<!-- Строка приветствия с условными ссылками -->
+<div class="header">
+        <nav class="navbar">
+            <h1 class="logo">Welcome to Our Website!</h1>
+            <ul class="nav-links">
+                <li sec:authorize="!isAuthenticated()" class="nav-item"><a th:href="@{/register}">Register</a></li>
+                <li sec:authorize="!isAuthenticated()" class="nav-item"><a th:href="@{/login}">Login</a></li>
+                <li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/public/data}">Public Data</a></li>
+                <li sec:authorize="hasAnyRole('ADMIN', 'DEVELOPER')" class="nav-item"><a th:href="@{/private/data}">Private Data</a></li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <form class="link" th:action="@{/logout}" method="post">
+                        <input class="link" type="submit" value="Logout"/>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+</div>
+
+
+<!-- Основное содержимое страницы -->
+<div class="content">
+    <!-- Левая часть с картинкой -->
+    <div class="left"></div>
+
+    <!-- Правая часть с текстовым полем для отображения текста из файла -->
+    <div class="right">
+            <textarea readonly>
+                <th:block th:utext="${fileContent}">Text from file...</th:block>
+            </textarea>
+    </div>
+</div>
+
+<!-- Нижняя строка рекламы -->
+<div class="footer">
+    <div class="advert">
+        Check out the best deals at <a href="https://www.gb.ru" target="_blank">gb.ru</a>!
+    </div>
+</div>
+</body>
+
+</html>

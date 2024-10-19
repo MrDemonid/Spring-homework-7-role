@@ -22,9 +22,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUsername(String username);
 
     /**
-     * Проверяет наличие эл. почты в БД.
+     * Возвращает данные пользователя, идентифицируя его по имени или по почте.
+     * @param username Имя пользователя (уникальное)
+     * @param email    Его почта (тоже уникальная).
      */
-    Boolean existsByEmail(String email);
-
+    Optional<User> findUserByUsernameOrEmail(String username, String email);
 }
 

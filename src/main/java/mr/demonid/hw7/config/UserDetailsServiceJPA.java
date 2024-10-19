@@ -26,14 +26,15 @@ public class UserDetailsServiceJPA implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
 
         // просто добавляем двух юзеров для теста
-        makePerson(new RegistrationRequest("admin", "admin", "admin@admin.com"), Role.ROLE_ADMIN);
-        makePerson(new RegistrationRequest("user", "password", "user@user.com"), Role.ROLE_USER);
+        makePerson(new RegistrationRequest("admin", "admin", "admin", "admin@admin.com"), Role.ROLE_ADMIN);
+        makePerson(new RegistrationRequest("user", "password", "password", "user@user.com"), Role.ROLE_USER);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(() ->
                 new UsernameNotFoundException(String.format("Пользователь '%s' не найден!", username)));
+        System.out.println("-- UserDetailsServiceJPA(): found user: " + user);
         return user;
     }
 
