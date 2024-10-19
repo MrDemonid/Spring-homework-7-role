@@ -21,6 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     boolean existsByUsername(String username);
 
+    boolean existsUserByEmail(String email);
+
     /**
      * Возвращает данные пользователя, идентифицируя его по имени или по почте.
      * @param username Имя пользователя (уникальное)

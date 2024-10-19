@@ -2,6 +2,8 @@ package mr.demonid.hw7.controller;
 
 import mr.demonid.hw7.domain.User;
 import mr.demonid.hw7.dto.RegistrationRequest;
+import mr.demonid.hw7.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +30,9 @@ import java.util.Collection;
  */
 @Controller
 public class BaseController {
+
+    @Autowired
+    private UserService userService;
 
     /**
      * Главная страница.
@@ -120,9 +125,16 @@ public class BaseController {
         if (result.hasErrors()) {
             return "/page-register";    // были ошибки, повторяем.
         }
-        // TODO: добавить сохранение пользователя в БД.
-        System.out.println("Пользователь добавлен");
-        return "redirect:/register?success";
+        try {
+            if (userService.registerUser(user) != null) {
+                return "redirect:/login";
+            }
+            throw new Exception("Непредвиденная ошибка, попробуйте повторить!");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Ошибка!");
+            model.addAttribute("errorDetails", e.getMessage());
+            return "/error";
+        }
     }
 
 

@@ -24,38 +24,12 @@ public class UserDetailsServiceJPA implements UserDetailsService {
     public UserDetailsServiceJPA(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-
-        // просто добавляем двух юзеров для теста
-        makePerson(new RegistrationRequest("admin", "admin", "admin", "admin@admin.com"), Role.ROLE_ADMIN);
-        makePerson(new RegistrationRequest("user", "password", "password", "user@user.com"), Role.ROLE_USER);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(() ->
                 new UsernameNotFoundException(String.format("Пользователь '%s' не найден!", username)));
-        System.out.println("-- UserDetailsServiceJPA(): found user: " + user);
         return user;
     }
-
-    /*
-        Это можно смело убрать
-     */
-    private void makePerson(RegistrationRequest registrationRequest, Role role) {
-        System.out.println("UserDetailsService(): makePerson()" + registrationRequest.toString());
-        if (!userRepository.existsByUsername(registrationRequest.getUsername())) {
-            User user = new User();
-            user.setUsername(registrationRequest.getUsername());
-            user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-            user.setEmail(registrationRequest.getEmail());
-            user.setRole(role);
-            try {
-                userRepository.save(user);
-                System.out.println("  -- create user: " + user.getUsername());
-            } catch (Exception e) {
-                System.out.println("ERROR: " + e.getMessage());
-            }
-        }
-    }
-
 }
